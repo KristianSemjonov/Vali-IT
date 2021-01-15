@@ -3,6 +3,9 @@ package ee.bcs.valiit.tasks;
 import java.util.Random;
 
 public class Lesson3Hard {
+    public static void main(String[] args) {
+        System.out.println(randomGame());
+    }
     public static int evenFibonacci(int x){
         // TODO liida kokku kõik paaris fibonacci arvud kuni numbrini x
         return 0;
@@ -13,9 +16,12 @@ public class Lesson3Hard {
         // iga kord pärast kasutaja sisestatud täis arvu peab programm ütlema kas number oli suurem või väiksem
         // ja kasutaja peab saama uuesti arvata
         // numbri ära aramise korral peab programm välja trükkima mitu katset läks numbri ära arvamiseks
-        Random random = new Random();
-        int i = random.nextInt(100);
+        Random random = new Random(); //loob sk2nneri
+        int i = random.nextInt(100); //programm gen random numbri
+        System.out.println("I have chosen random number from 0-100");
+        System.out.println("Try to guess it");
         System.out.println(i);
+
     }
 
     public static String morseCode(String text){

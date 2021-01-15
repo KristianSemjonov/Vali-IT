@@ -6,15 +6,16 @@ import java.util.Scanner;
 
 public class Lesson4 {
     // Store account nr as a key and account balance as value
-    HashMap<String, BigDecimal> accountBalanceMap = new HashMap<>();
+   static HashMap<String, BigDecimal> accountBalanceMap = new HashMap<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true){
-            String line = scanner.nextLine();
-            if (line.equalsIgnoreCase("exit")){
+            System.out.println("Please enter command: ");
+            String command  = scanner.nextLine();
+            if (command.equalsIgnoreCase("exit")){
                 break;
-            }
+            } else if (command.startsWith("createAccount"));
             // TODO 1
             // Add command: "createAccount ${accountNr}"
             // this has to store accountNr with 0 balance
