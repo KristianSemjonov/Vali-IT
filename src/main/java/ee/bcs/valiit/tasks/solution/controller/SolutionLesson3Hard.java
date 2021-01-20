@@ -19,7 +19,7 @@ public class SolutionLesson3Hard {
         return Lesson3Hard.evenFibonacci(aVariable);
     }
     //xxx
-
+    //localhost:8080/solution3hard/randomGame?number=20
     static Random number = new Random();
     static int randomNumber = number.nextInt(100);
     @GetMapping("randomGame")
