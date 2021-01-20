@@ -1,7 +1,6 @@
 package ee.bcs.valiit.tasks;
 
-import com.sun.xml.bind.v2.runtime.output.SAXOutput;
-import org.springframework.http.converter.json.GsonBuilderUtils;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -87,7 +86,7 @@ public class Lesson2 {
             int a = 0;
             int b = 1;
             for (int i = 1; i < n; i++) {
-                int tmp = a; // antud kohas tähendab ajutine a väärtus mida?`kas on for(ajutine väärtus?)
+                int tmp = a; //antud kohas tähendab ajutine a väärtus mida?`kas on for(ajutine väärtus?)
                 a = b;
                 b = b + tmp; //muidu peaks oelma a+b, aga enne a juba kasutatud 2ra, loome ajutise a
             }

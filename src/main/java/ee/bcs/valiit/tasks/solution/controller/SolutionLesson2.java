@@ -11,7 +11,7 @@ public class SolutionLesson2 {
     public int fib(@RequestParam("a") int aVariable) {
         return Lesson2.exercise4(aVariable);
     }
-
+    //http://localhost:8080/solution2/cycle?a=1&b=10
     @GetMapping("cycle")
     public String cycle(@RequestParam("a") int aVariable, @RequestParam("b") int bVariable) {
       return Lesson2.exercise5(1,10);

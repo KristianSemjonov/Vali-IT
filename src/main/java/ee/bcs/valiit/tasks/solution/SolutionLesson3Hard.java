@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class SolutionLesson3Hard {
     public static void main(String[] args) {
         System.out.println(morseCode("sos"));
-        System.out.println(morseCode("siim"));
     }
 
     public static int evenFibonacci(int x) {
+        // TODO liida kokku kõik paaris fibonacci arvud kuni numbrini x
         int a = 0;
         int b = 1;
         int sum = 0;
@@ -58,8 +58,6 @@ public class SolutionLesson3Hard {
         Map<String, String> morseCodes = new HashMap<>();
         morseCodes.put("s", "...");
         morseCodes.put("o", "---");
-        morseCodes.put("i", "..");
-        morseCodes.put("m", "--");
 
         String result = "";
         for(int i = 0; i < text.length(); i++){

@@ -1,6 +1,5 @@
 package ee.bcs.valiit.tasks;
 
-import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +11,16 @@ import static java.lang.Math.sqrt;
 
 public class Lesson3 {
     public static void main(String[] args) {
-        //System.out.println(sum(new int[]{1,2,3,4,5}));
-        //System.out.println(factorial(5));
-        //System.out.println(sort(new int[] {3,5,1}));
-        //System.out.println(Arrays.toString(sort(new int[]{5, -6, 9, 12, 7})));
-        //System.out.println(Arrays.toString(sort2(new int[] {5, -6, 9, 12, 7})));
-        //System.out.println(reverseString("Kristian"));
-        System.out.println(isPrime(1)); //FALSE;
-        System.out.println(isPrime(2)); //isPrime TRUE;
-        System.out.println(isPrime(3)); //isPrime TRUE;
-        System.out.println(isPrime(4)); //false
+//        System.out.println(sum(new int[]{1,2,3,4,5}));
+//        System.out.println(factorial(5));
+//        System.out.println(sort(new int[] {3,5,1}));
+//        System.out.println(Arrays.toString(sort(new int[]{5, -6, 9, 12, 7})));
+//        System.out.println(Arrays.toString(sort2(new int[] {5, -6, 9, 12, 7})));
+//        System.out.println(reverseString("Kristian"));
+//        System.out.println(isPrime(1)); //FALSE;
+//        System.out.println(isPrime(2)); //isPrime TRUE;
+//        System.out.println(isPrime(3)); //isPrime TRUE;
+//        System.out.println(isPrime(4)); //false
 
     }
 
@@ -80,20 +79,12 @@ public class Lesson3 {
     }
 
     public static String reverseString(String a) {
-        // TODO tagasta string tagurpidi
-
-        System.out.println("Sisesta tekst: ");
-
-        Scanner read = new Scanner(System.in);    //loome võimekuse trükkida sisse output aknasse
-        String str = read.nextLine();               //loeb sisestatud teksti
-        String reverse = "";                        //muutuja mille väärtus on String
-
-        for (int i = str.length() - 1; i >= 0; i--) {     //loeme üksikute karakterite järg
-
-            reverse = reverse + str.charAt(i); //tyhajle stringile lisan "N" hypab tagasi, i = 5, kas 5 suurem kui 0
-            //6 indeks + 5 indeksi kohal olev t'ht
+//         TODO tagasta string tagurpidi
+        String result = "";
+        for (int i = a.length() - 1; i >= 0; i--) {
+            result += a.substring(i, i + 1);
         }
-        return reverse;
+        return result;
     }
 
     public static boolean isPrime(int x) {
