@@ -44,7 +44,7 @@ public class EmployeeController {
 
     //http://localhost:8080/solution/solution/1
     @GetMapping("solution/{id}")
-                                                                //url otsib id j2rgi, nt 1, loogilised sulnud ainult siis kui mingi parameeter
+    //url otsib id j2rgi, nt 1, loogilised sulnud ainult siis kui mingi parameeter
     public Employee id(@PathVariable("id") int idVariable) { //PathVariable sobib ID-le
         return employeeList.get(idVariable);
     }
