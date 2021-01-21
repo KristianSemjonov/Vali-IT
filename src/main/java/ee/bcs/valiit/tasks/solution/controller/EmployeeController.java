@@ -1,16 +1,26 @@
 package ee.bcs.valiit.tasks.solution.controller;
 
 
+import com.fasterxml.jackson.databind.jsontype.impl.MinimalClassNameIdResolver;
 import ee.bcs.valiit.tasks.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.NamedParameterJdbcOperationsDependsOnPostProcessor;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping("solution")
 @RestController
 public class EmployeeController {
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
     List<Employee> employeeList = new ArrayList<>();
 
     //http://localhost:8080/solution/employee/name/id
@@ -19,16 +29,28 @@ public class EmployeeController {
         Employee employee = new Employee();
         employee.setName("Kristian");
         employee.setId("1");
+
         return employee;
     }
 
-    //http://localhost:8080/solution/employee/
+    //http://localhost:8080/solution/employee/ enam ei toimi
+    //http://localhost:8081/solution/employee?name=Kiku&address=Tallinn
     @PostMapping("employee")
-    public Employee employee2(@RequestBody Employee name) {
-        System.out.println(name.getName());
-        System.out.println(name.getId());
-        return name;
+    public String employee2(@RequestParam("name") String name, @RequestParam("address") String address) {
+
+        Employee employeeNew = new Employee();
+        employeeNew.setAddress(address);
+        employeeNew.setName(name);
+
+        String sql = "INSERT INTO employee (name, address) values (:nameParameter,:addressParameter)";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("addressParameter", employeeNew.getAddress());
+        paramMap.put("nameParameter", employeeNew.getName());
+        jdbcTemplate.update(sql, paramMap);
+        return "Employee added";
+
     }
+
 
     //http://localhost:8080/solution/addEmployee/
     @PostMapping("addEmployee")
@@ -53,7 +75,8 @@ public class EmployeeController {
     public void replaceEmployee(@RequestBody Employee employee, @PathVariable("replaceEmployee") int idVariable) { //body siis peab olema def postmanis raw-json
         employeeList.set(idVariable, employee);
     }
-//http://localhost:8080/solution/solution/2
+
+    //http://localhost:8080/solution/solution/2
     @DeleteMapping("solution/{deleteEmployee}")
     public void deleteEmployee(@PathVariable("deleteEmployee") int idVariable) {
         employeeList.remove(idVariable);
