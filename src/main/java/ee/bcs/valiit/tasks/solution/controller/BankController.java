@@ -11,28 +11,35 @@ import java.util.HashMap;
 public class BankController {
     HashMap<String, BigDecimal> accountMap = new HashMap<>();
 
-    // http://localhost:8080/game/bank?a=EE123  siis vastab "Your account EE123 (konto param)"
-    @GetMapping("bank") //kui oleks reuqestparam siis {} pole vaja
-    public String createAccount(@RequestParam("a") String konto) {
-        //kui oleks lihtsalt return konto, saaks sama konto tagasi
-        return "Your account is " + konto;
+    // http://localhost:8081/game/createAccount?accountNr=EE123
+    @GetMapping("createAccount")
+    public String createAccount(@RequestParam("accountNr") String accountNr) {
+        return "Your account is " + accountNr;
     }
-//    http://localhost:8080/game/bank?b=EE123
-//    @GetMapping("bank")
-//    public BigDecimal accountBalance(@RequestParam("b") String balance ){
-//        return BigDecimal.ZERO;
-//    }
-//    http://localhost:8080/game/bank/depositMoney?accountNr=EE123&amount=12
-//    @GetMapping("bank/{depositMoney}")
-//    public void depositMoney(@RequestParam("depositMoney")xxxx){
-//    }
-//    http://localhost:8080/game/bank/withdrawMoney?accountNr=EE123&amount=12
-//    @GetMapping("bank/{withdrawMoney}")
-//    public void withdrawMoney(@RequestParam("withdrawMoney") xxxx){
-//
-//    }
-//    http://localhost:8080/game/bank/transferMoney?fromAccount=EE123&toAccount=EE124&amount=12
-//    @GetMapping("bank/{transferMoney}")
-//    public void transferMoney(@RequestParam("transferMoney"){
-//
+
+    //http://localhost:8081/game/accountBalance?accountNr=EE123
+    @GetMapping("accountBalance")
+    public BigDecimal accountBalance(@RequestParam("accountNr") String accountBalance) {
+        return accountMap.get(accountBalance);
+    }
+
+    //http://localhost:8081/game/depositMoney?accountNr=EE123&amount=12
+    @GetMapping("depositMoney")
+    public void depositMoney(@RequestParam("accountNr") String accountNr,
+                             @RequestParam("amount") String amount) {
+
+    }
+
+    //http://localhost:8081/game/withdrawMoney?accountNr=EE123&amount=12
+    @GetMapping("withdrawMoney")
+    public void withdrawMoney(@RequestParam("accountNr") String accountNr,
+                              @RequestParam("amount") String amount) {
+    }
+
+    //http://localhost:8081/game/transferMoney?fromAccount=EE123&toAccount=EE124&amount=12
+    @GetMapping("transferMoney")
+    public void transferMoney(@RequestParam("fromAccount") String fromAccount,
+                              @RequestParam("toAccount") String toAccount,
+                              @RequestParam("amount") String amount) {
+    }
 }
