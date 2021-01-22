@@ -28,7 +28,11 @@ public class BankController {
         paramMap.put("accountNumber", accountNr);
         paramMap.put("balance", BigDecimal.ZERO);
         jdbcTemplate.update(sql, paramMap);
+
+
         System.out.println("Account nr " + accountNr + " was created.");
+
+
         //accountMap.put(accountNr, BigDecimal.ZERO);
     }
 
@@ -79,7 +83,10 @@ public class BankController {
         paramMap.put("accountNumber", accountNr);
         BigDecimal balance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
 
-        BigDecimal newBalance = balance.subtract(amount); //saab ka teha nii et vana konto seis + amount
+        BigDecimal newBalance = balance.subtract(amount);
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Not enough money");
+        }
 
         // accountMap.put(accountNr, newBalance);
         String sql2 = "UPDATE account SET balance = :balance WHERE account_number = :accountNumber";
@@ -101,11 +108,41 @@ public class BankController {
     public void transferMoney(@RequestParam("fromAccount") String fromAccount,
                               @RequestParam("toAccount") String toAccount,
                               @RequestParam("amount") BigDecimal amount) {
-        String sql = "SELECT balance FROM account WHERE account_number = :accountNr";
+        String sql = "SELECT balance FROM account where account_number = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("accountNumber", accountNr);
-        jdbcTemplate.queryForObject(sql, paramMap, Integer.class)
+        paramMap.put("accountNumber", fromAccount);
+        BigDecimal fromAccountBalance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
+
+        BigDecimal newFromAccountBalance = fromAccountBalance.subtract(amount);
+        if (newFromAccountBalance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Not enough money");
+        }
+
+        // accountMap.put(fromAccount, newFromAccountBalance);
+        String sql2 = "UPDATE account SET balance = :balance WHERE account_number = :accountNumber";
+        Map<String, Object> paramMap2 = new HashMap();
+        paramMap2.put("accountNumber", fromAccount);
+        paramMap2.put("balance", newFromAccountBalance);
+        jdbcTemplate.update(sql2, paramMap2);
+
+        // BigDecimal toAccountBalance = accountMap.get(toAccount);
+        String sql3 = "SELECT balance FROM account where account_number = :accountNumber";
+        Map<String, Object> paramMap3 = new HashMap<>();
+        paramMap3.put("accountNumber", toAccount);
+        BigDecimal toAccountBalance = jdbcTemplate.queryForObject(sql3, paramMap3, BigDecimal.class);
+
+        BigDecimal newToAccountBalance = toAccountBalance.add(amount);
+
+        // accountMap.put(toAccount, newToAccountBalance);
+        String sql4 = "UPDATE account SET balance = :balance WHERE account_number = :accountNumber";
+        Map<String, Object> paramMap4 = new HashMap();
+        paramMap4.put("accountNumber", toAccount);
+        paramMap4.put("balance", newToAccountBalance);
+        jdbcTemplate.update(sql4, paramMap4);
     }
+}
+
+
 //        BigDecimal fromAccountBalance = accountMap.get(fromAccount);
 //        BigDecimal newFromAccountBalance = fromAccountBalance.subtract(amount);
 //        if (newFromAccountBalance.compareTo(BigDecimal.ZERO) < 0) {
@@ -115,5 +152,5 @@ public class BankController {
 //        BigDecimal toAccountBalance = accountMap.get(toAccount);
 //        BigDecimal newToAccountBalance = toAccountBalance.add(amount);
 //        accountMap.put(toAccount, newToAccountBalance);
-//    }
-}
+
+
