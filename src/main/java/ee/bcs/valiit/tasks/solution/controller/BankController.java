@@ -28,23 +28,38 @@ public class BankController {
     //http://localhost:8081/game/depositMoney?accountNr=EE123&amount=12
     @GetMapping("depositMoney")
     public void depositMoney(@RequestParam("accountNr") String accountNr,
-                             @RequestParam("amount") String amount) {
+                             @RequestParam("amount") BigDecimal amount) {
+        BigDecimal balance = accountMap.get(accountNr);
+        BigDecimal newBalance = balance.add(amount);
+        accountMap.put(accountNr, newBalance);
 
-    return accountMap.put(accountNr, amount);
     }
 
     //http://localhost:8081/game/withdrawMoney?accountNr=EE123&amount=12
     @GetMapping("withdrawMoney")
     public void withdrawMoney(@RequestParam("accountNr") String accountNr,
-                              @RequestParam("amount") String BigDecima amount) {
+                              @RequestParam("amount") BigDecimal amount) {
         BigDecimal balance = accountMap.get(accountNr);
-        BigDecima newbalance
+        BigDecimal newbalance = balance.subtract(amount);
+        if(newbalance.compareTo(BigDecimal.ZERO) < 0){
+            throw new RuntimeException("Not enough money");
+        }
+        accountMap.put(accountNr, newbalance);
     }
 
     //http://localhost:8081/game/transferMoney?fromAccount=EE123&toAccount=EE124&amount=12
     @GetMapping("transferMoney")
     public void transferMoney(@RequestParam("fromAccount") String fromAccount,
                               @RequestParam("toAccount") String toAccount,
-                              @RequestParam("amount") String amount) {
+                              @RequestParam("amount") BigDecimal amount){
+        BigDecimal fromAccountBalance = accountMap.get(fromAccount);
+        BigDecimal newFromAccountBalance = fromAccountBalance.subtract(amount);
+        if(newFromAccountBalance.compareTo(BigDecimal.ZERO) < 0){
+            throw new RuntimeException("Not enough money");
+        }
+        accountMap.put(fromAccount, newFromAccountBalance);
+        BigDecimal toAccountBalance = accountMap.get(toAccount);
+        BigDecimal newToAccountBalance = toAccountBalance.add(amount);
+        accountMap.put(toAccount, newToAccountBalance);
     }
 }

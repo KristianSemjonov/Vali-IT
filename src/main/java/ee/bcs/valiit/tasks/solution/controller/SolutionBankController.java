@@ -23,6 +23,7 @@ public class SolutionBankController {
     @GetMapping("accountBalance")
     public BigDecimal accountBalance(@RequestParam("accountNr") String accountNr){
         return accountMap.get(accountNr);
+
     }
 
     // http://localhost:8080/solution/bank/depositMoney?accountNr=EE123&amount=12
