@@ -22,7 +22,7 @@ public class SolutionBankController {
 
     // http://localhost:8080/solution/bank/createAccount?accountNr=EE123
     @GetMapping("createAccount")
-    public void createAccount(@RequestParam("accountNr") String accountNr){
+    public void createAccount(@RequestParam("accountNr") String accountNr) {
         String sql = "INSERT INTO account (account_number, balance) VALUES (:accountNumber, :balance)";
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("accountNumber", accountNr);
@@ -33,7 +33,7 @@ public class SolutionBankController {
 
     // http://localhost:8080/solution/bank/accountBalance?accountNr=EE123
     @GetMapping("accountBalance")
-    public BigDecimal accountBalance(@RequestParam("accountNr") String accountNr){
+    public BigDecimal accountBalance(@RequestParam("accountNr") String accountNr) {
         String sql = "SELECT balance FROM account where account_number = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("accountNumber", accountNr);
@@ -43,7 +43,7 @@ public class SolutionBankController {
 
     // http://localhost:8080/solution/bank/depositMoney?accountNr=EE123&amount=12
     @GetMapping("depositMoney")
-    public void depositMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount){
+    public void depositMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount) {
         // BigDecimal balance = accountMap.get(accountNr);
         String sql = "SELECT balance FROM account where account_number = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
@@ -62,10 +62,10 @@ public class SolutionBankController {
 
     // http://localhost:8080/solution/bank/withdrawMoney?accountNr=EE123&amount=12
     @GetMapping("withdrawMoney")
-    public void withdrawMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount){
+    public void withdrawMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount) {
         BigDecimal balance = accountMap.get(accountNr);
         BigDecimal newBalance = balance.subtract(amount);
-        if(newBalance.compareTo(BigDecimal.ZERO) < 0){
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("Not enough money");
         }
         accountMap.put(accountNr, newBalance);
@@ -76,10 +76,10 @@ public class SolutionBankController {
     @GetMapping("transferMoney")
     public void transferMoney(@RequestParam("fromAccount") String fromAccount,
                               @RequestParam("toAccount") String toAccount,
-                              @RequestParam("amount") BigDecimal amount){
+                              @RequestParam("amount") BigDecimal amount) {
         BigDecimal fromAccountBalance = accountMap.get(fromAccount);
         BigDecimal newFromAccountBalance = fromAccountBalance.subtract(amount);
-        if(newFromAccountBalance.compareTo(BigDecimal.ZERO) < 0){
+        if (newFromAccountBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("Not enough money");
         }
         accountMap.put(fromAccount, newFromAccountBalance);
