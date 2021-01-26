@@ -16,8 +16,22 @@ import java.util.Map;
 @RestController
 public class BankController2 {
 
+//    @Autowired
+//    private NamedParameterJdbcTemplate jdbcTemplate;
+
     @Autowired
     private BankService2 bankService2;
+
+    //http://localhost:8081/bank2/newCustomer?name=Kristian
+    @GetMapping("newCustomer")
+    public String newCustomer(@RequestParam("name") String name) {
+        return bankService2.newCustomer(name);
+//        String sql = "INSERT INTO customer (name) VALUES (:name)";
+//        Map<String, String> paramMap = new HashMap<>();
+//        paramMap.put("name", name);
+//        jdbcTemplate.update(sql,paramMap);
+//        return "New customer has beed added";
+    }
 
     // http://localhost:8081/bank2/createAccount?accountNr=EE555 TOIMIS
     @GetMapping("createAccount")
@@ -25,21 +39,26 @@ public class BankController2 {
         bankService2.createAccount(accountNr);
     }
 
+    // GetMapping("bank2/transaction")
+
     // http://localhost:8081/bank2/accountBalance?accountNr=EE555 TOMIS 0.0
     @GetMapping("accountBalance")
     public BigDecimal accountBalance(@RequestParam("accountNr") String accountNr) {
         return bankService2.accountBalance(accountNr);
     }
+
     // http://localhost:8081/bank2/depositMoney?accountNr=EE555&amount=12 TOIMIS
     @GetMapping("depositMoney")
     public void depositMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount) {
         bankService2.depositMoney(accountNr, amount);
     }
+
     // http://localhost:8081/bank2/withdrawMoney?accountNr=EE555&amount=12 TOIMIS
     @GetMapping("withdrawMoney")
     public void withdrawMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount) {
         bankService2.withdrawMoney(accountNr, amount);
     }
+
     // http://localhost:8081/bank2/transferMoney?fromAccount=EE123&toAccount=EE555&amount=12 TOIMIS
     @GetMapping("transferMoney")
     public void transferMoney(@RequestParam("fromAccount") String fromAccount,

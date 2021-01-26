@@ -18,6 +18,9 @@ public class BankService2 {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+    public String newCustomer(String name) {
+        return bankRepository2.newCustomer(name);
+    }
     public void createAccount(String accountNr) {
         bankRepository2.createAccount(accountNr);
     }
@@ -49,7 +52,8 @@ public class BankService2 {
         }
         bankRepository2.updateBalance(accountNr, newBalance);
     }
-//        String sql = "SELECT balance FROM account where account_number = :accountNumber";
+
+    //        String sql = "SELECT balance FROM account where account_number = :accountNumber";
 //        Map<String, Object> paramMap = new HashMap<>();
 //        paramMap.put("accountNumber", accountNr);
 //        BigDecimal balance = jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
@@ -76,8 +80,24 @@ public class BankService2 {
         BigDecimal balance2 = bankRepository2.depositMoney(toAccount, amount);
         BigDecimal newBalance2 = balance2.add(amount);
         bankRepository2.updateBalance(toAccount, newBalance2);
+
+        bankRepository2.transactionHistory(fromAccount, toAccount, bankRepository2.getName(id), 1);
+
+
+    }
+
+    public void transactionHistory(String id, String name, String date, int account_id) {
+        bankRepository2.transactionHistory(id, name, date, account_id);
     }
 }
+
+//        String sql = "INSERT INTO transaction (id, name, account_id) VALUES (:idParameter,:nameParameter, :dateParameter, :account_idParameter)";
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("idParameter",id);
+//        paramMap.put("nameParameter",name);
+//        paramMap.put("dateParameter", date);
+//        paramMap.put("account_idParameter",account_id);
+//        jdbcTemplate.update(sql, paramMap);
 
 
 //        String sql = "SELECT balance FROM account where account_number = :accountNumber";
