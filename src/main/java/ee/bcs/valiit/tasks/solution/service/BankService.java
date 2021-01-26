@@ -48,6 +48,6 @@ public class BankService {
             throw new RuntimeException("Not enough money");
         }
         BigDecimal newbalance2 = balance.add(amount);
-        bankRepository.updateBalance(accountNr, newbalance2);
+        //bankRepository.updateBalance(accountNr, newbalance2);
     }
 }
