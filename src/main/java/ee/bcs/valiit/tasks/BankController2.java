@@ -33,21 +33,21 @@ public class BankController2 {
 //        return "New customer has beed added";
     }
 
-    // http://localhost:8081/bank2/createAccount?accountNr=EE555 TOIMIS
+    // http://localhost:8081/bank2/createAccount?accountNr=EE123&customer_id=1
     @GetMapping("createAccount")
-    public void createAccount(@RequestParam("accountNr") String accountNr) {
-        bankService2.createAccount(accountNr);
+    public void createAccount(@RequestParam("accountNr") String accountNr, @RequestParam ("customer_id") int customer_id) {
+        bankService2.createAccount(accountNr, customer_id);
     }
 
     // GetMapping("bank2/transaction")
 
-    // http://localhost:8081/bank2/accountBalance?accountNr=EE555 TOMIS 0.0
+    // http://localhost:8081/bank2/accountBalance?accountNr=EE123 TOMIS 0.0
     @GetMapping("accountBalance")
     public BigDecimal accountBalance(@RequestParam("accountNr") String accountNr) {
         return bankService2.accountBalance(accountNr);
     }
 
-    // http://localhost:8081/bank2/depositMoney?accountNr=EE555&amount=12 TOIMIS
+    // http://localhost:8081/bank2/depositMoney?accountNr=EE123&amount=12 TOIMIS
     @GetMapping("depositMoney")
     public void depositMoney(@RequestParam("accountNr") String accountNr, @RequestParam("amount") BigDecimal amount) {
         bankService2.depositMoney(accountNr, amount);
@@ -59,7 +59,7 @@ public class BankController2 {
         bankService2.withdrawMoney(accountNr, amount);
     }
 
-    // http://localhost:8081/bank2/transferMoney?fromAccount=EE123&toAccount=EE555&amount=12 TOIMIS
+    // http://localhost:8081/bank2/transferMoney?fromAccount=EE123&toAccount=EE124&amount=12 TOIMIS
     @GetMapping("transferMoney")
     public void transferMoney(@RequestParam("fromAccount") String fromAccount,
                               @RequestParam("toAccount") String toAccount,

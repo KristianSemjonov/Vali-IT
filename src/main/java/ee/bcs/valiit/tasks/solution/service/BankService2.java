@@ -1,5 +1,6 @@
 package ee.bcs.valiit.tasks.solution.service;
 
+import ee.bcs.valiit.tasks.ErrorResponse;
 import ee.bcs.valiit.tasks.solution.respository.BankRepository2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,20 +16,25 @@ public class BankService2 {
 
     @Autowired
     private BankRepository2 bankRepository2;
-    @Autowired
-    private NamedParameterJdbcTemplate jdbcTemplate;
+//    @Autowired
+//    private NamedParameterJdbcTemplate jdbcTemplate;
 
     public String newCustomer(String name) {
         return bankRepository2.newCustomer(name);
     }
-    public void createAccount(String accountNr) {
-        bankRepository2.createAccount(accountNr);
+    public void createAccount(String accountNr, int customer_id) {
+        bankRepository2.createAccount(accountNr, customer_id);
     }
-
+   // http://localhost:8081/bank2/accountBalance?accountNr=EE123
     public BigDecimal accountBalance(String accountNr) {
-        return bankRepository2.accountBalance(accountNr);
-    }
+        try {
+            return bankRepository2.accountBalance(accountNr);
+        } catch (Exception e) {
+            throw new MyException("Account nr invalid");
+        }
 
+    }
+    //http://localhost:8081/bank2/depositMoney?accountNr=EE123&amount=12
     public void depositMoney(String accountNr, BigDecimal amount) {
         BigDecimal balance = bankRepository2.depositMoney(accountNr, amount);
         BigDecimal newBalance = balance.add(amount);
@@ -44,11 +50,13 @@ public class BankService2 {
 //        paramMap2.put("balance", newBalance);
 //        jdbcTemplate.update(sql2, paramMap2);
 
+//   http://localhost:8081/bank2/withdrawMoney?accountNr=EE123&amount=12
     public void withdrawMoney(String accountNr, BigDecimal amount) {
         BigDecimal balance = bankRepository2.withdrawMoney(accountNr, amount);
         BigDecimal newBalance = balance.subtract(amount);
+
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Not enough money");
+            throw new MyException ("Not enough money");
         }
         bankRepository2.updateBalance(accountNr, newBalance);
     }
@@ -72,8 +80,9 @@ public class BankService2 {
     public void transferMoney(String fromAccount, String toAccount, BigDecimal amount) {
         BigDecimal balance1 = bankRepository2.withdrawMoney(fromAccount, amount);
         BigDecimal newBalance1 = balance1.subtract(amount);
+
         if (newBalance1.compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Not enough money");
+            throw new MyException ("Not enough money on balance");
         }
         bankRepository2.updateBalance(fromAccount, newBalance1);
 
@@ -81,16 +90,15 @@ public class BankService2 {
         BigDecimal newBalance2 = balance2.add(amount);
         bankRepository2.updateBalance(toAccount, newBalance2);
 
-        bankRepository2.transactionHistory(fromAccount, toAccount, bankRepository2.getName(id), 1);
+       // bankRepository2.transactionHistory(fromAccount, toAccount, bankRepository2.getName(), 1);
 
 
     }
 
-    public void transactionHistory(String id, String name, String date, int account_id) {
-        bankRepository2.transactionHistory(id, name, date, account_id);
+    public void transactionHistory(String name, String date, int account_id) {
+        bankRepository2.transactionHistory(name, date, account_id);
     }
 }
-
 //        String sql = "INSERT INTO transaction (id, name, account_id) VALUES (:idParameter,:nameParameter, :dateParameter, :account_idParameter)";
 //        Map<String, Object> paramMap = new HashMap<>();
 //        paramMap.put("idParameter",id);

@@ -5,9 +5,20 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="26.01.2020" author="Kristian">
+
+    <createTable tableName="customer">
+        <column name="id" type="int" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="name" type="text"/>
+    </createTable>
+
         <createTable tableName="account">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true"/>
+            </column>
+            <column name="customer_id" type="int">
+                <constraints foreignKeyName="fk_account_customer" references = "customer(id)"/>
             </column>
             <column name="account_number" type="text"/>
             <column name="balance" type="text"/>
@@ -15,19 +26,14 @@
 
         <createTable tableName="transaction">
             <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
              </column>
-            <column name="name" type="text"/>
             <column name="date" type="text"/>
+            <column name="deposit" type="int"/>
+            <column name="withdraw" type="int"/>
             <column name="account_id" type="int">
                 <constraints foreignKeyName="fk_account_transaction" references = "account(id)"/> <!-- accountid on primery key -->
             </column>
         </createTable>
-
-        <createTable tableName="customer">
-        <column name="id" type="int" autoIncrement="true">
-        </column>
-        <column name="name" type="text"/>
-        </createTable>
-
     </changeSet>
 </databaseChangeLog>
