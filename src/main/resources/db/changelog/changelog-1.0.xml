@@ -20,7 +20,9 @@
             <column name="customer_id" type="int">
                 <constraints foreignKeyName="fk_account_customer" references = "customer(id)"/>
             </column>
-            <column name="account_nr" type="text"/>
+            <column name="account_nr" type="text">
+                <constraints unique = "true"/>
+            </column>
             <column name="balance" type="text"/>
         </createTable>
 
