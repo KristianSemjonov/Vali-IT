@@ -20,7 +20,7 @@
             <column name="customer_id" type="int">
                 <constraints foreignKeyName="fk_account_customer" references = "customer(id)"/>
             </column>
-            <column name="account_number" type="text"/>
+            <column name="account_nr" type="text"/>
             <column name="balance" type="text"/>
         </createTable>
 
@@ -29,10 +29,11 @@
                 <constraints primaryKey="true"/>
              </column>
             <column name="date" type="text"/>
-            <column name="deposit" type="int"/>
-            <column name="withdraw" type="int"/>
-            <column name="account_id" type="int">
-                <constraints foreignKeyName="fk_account_transaction" references = "account(id)"/> <!-- accountid on primery key -->
+            <column name="sum" type="int"/>
+            <column name="from_account" type="text">
+            <constraints foreignKeyName="fk_account_transaction" references = "account(account_nr)"/>
+            </column>
+            <column name="to_account" type="text">
             </column>
         </createTable>
     </changeSet>
