@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,26 +7,59 @@
 </head>
 <body>
 <img src="https://i.pinimg.com/564x/ba/0a/e3/ba0ae3c4f9c21897661518fd46a445ad.jpg"/>
-<a href="http://www.google.com">Google link</a>
-<a href="index2.html">Siin ei ole google</a>
-<h1>Bank</h1>
-<h2>Create customer</h2>
+<!--<a href="http://www.google.com">Google link</a>-->
+<!--<a href="index2.html">Siin ei ole google</a>-->
+<h1>BANK</h1>
+<h2>NEW CUSTOMER</h2>
 <form>
     <input type="text" name="customer name" value="customer name"/>
+    <br>
+    <button id="new customer" type="button" name="new customer">SUBMIT</button>
+
+    <script>
+function makeRequest() {
+    fetch('/bank2/newCustomer?name=Kristian')
+
+        .then(result => result.json())
+        .then
+}
+        let element1 = document.getElementById("new customer")
+        element1.addEventListener("click", pressButtonFunction1)
+    </script>
 </form>
 
-<h2>Create account</h2>
+
+<h2>ACCOUNT CREACTION</h2>
 <form>
-    <input type="number" name="account number" value="account nr"/>
+    <input type="text" name="account number" value="EE123"/>
+    <br>
+    <button id="new account" type="button" name="new account">SUBMIT</button>
 </form>
 
-<h2>Check balance</h2>
+<h2>BALANCE CHECK</h2>
+<form>
+    <input type="search" name="account number" value="EE123"/>
+    <br>
+    <button id="submit" type="button" name="submit">SUBMIT</button>
+</form>
 
-<h2>Deposit </h2>
-
-<h2>Withdraw</h2>
-
-<h2>Transactions</h2>
+<h2>DEPOSIT</h2>
+<form>
+    <input type="text" name="account number" value="EE123"/>
+    <br>
+    <input type="number" name="deposit" value="deposit value"/>
+    <br>
+    <button id="submit" type="button" name="submit">SUBMIT</button>
+</form>
+<h2>WITHDRAWAL</h2>
+<form>
+    <input type="text" name="account number" value="EE123"/>
+    <br>
+    <input type="number" name="deposit" value="withdrawal value"/>
+    <br>
+    <button id="submit" type="button" name="submit">SUBMIT</button>
+</form>
+<h2>TRANSACTION HISTORY</h2>
 <script>
     // alert('test')
     // console.log("I am here");
