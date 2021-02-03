@@ -18,7 +18,7 @@ public class BankRepository2 {
 
     public void createAccount(String account, int customer_id) {
 
-        String sql = "INSERT INTO account (customer_id, account_number, balance) VALUES (:customer_id,:accountNumber, :balance)";
+        String sql = "INSERT INTO account (customer_id, account_nr, balance) VALUES (:customer_id,:accountNumber, :balance)";
         Map<String, Object> paramMap = new HashMap();
         paramMap.put("accountNumber", account);
         paramMap.put("balance", BigDecimal.ZERO);
@@ -28,7 +28,7 @@ public class BankRepository2 {
 
     public BigDecimal accountBalance(String accountNr) {
 
-        String sql = "SELECT balance FROM account where account_number = :accountNumber";
+        String sql = "SELECT balance FROM account where account_nr = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("accountNumber", accountNr);
         return jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
@@ -36,14 +36,14 @@ public class BankRepository2 {
 
     public BigDecimal depositMoney(String accountNr, BigDecimal amount) {
 
-        String sql = "SELECT balance FROM account where account_number = :accountNumber";
+        String sql = "SELECT balance FROM account where account_nr = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("accountNumber", accountNr);
         return jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
     }
 
     public void updateBalance(String accountNr, BigDecimal amount) {
-        String sql2 = "UPDATE account SET balance = :balance WHERE account_number = :accountNumber";
+        String sql2 = "UPDATE account SET balance = :balance WHERE account_nr = :accountNumber";
         Map<String, Object> paramMap2 = new HashMap();
         paramMap2.put("accountNumber", accountNr);
         paramMap2.put("balance", amount);
@@ -51,7 +51,7 @@ public class BankRepository2 {
     }
 
     public BigDecimal withdrawMoney(String accountNr, BigDecimal amount) {
-        String sql = "SELECT balance FROM account WHERE account_number = :accountNumber";
+        String sql = "SELECT balance FROM account WHERE account_nr = :accountNumber";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("accountNumber", accountNr);
         return jdbcTemplate.queryForObject(sql, paramMap, BigDecimal.class);
@@ -66,7 +66,7 @@ public class BankRepository2 {
 //        paramMap.put("id", account_id);
 //        return jdbcTemplate.queryForObject(sql, paramMap, String.class);
 
-        //peab tagastama nime ID põhjal
+    //peab tagastama nime ID põhjal
 //    }
 
 //    public Integer getAccountId(int id) {
@@ -93,6 +93,13 @@ public class BankRepository2 {
         paramMap.put("name", name);
         jdbcTemplate.update(sql, paramMap);
         return "New customer has beed added";
+    }
+
+    public String findPasswordByUserName(String userName) {
+        String sql = "SELECT password FROM great_customer WHERE user_name = :userName";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userName", userName);
+        return jdbcTemplate.queryForObject(sql, paramMap,String.class);
     }
 }
 

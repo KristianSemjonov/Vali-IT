@@ -22,11 +22,8 @@ public class BankService2 {
     }
    // http://localhost:8081/bank2/accountBalance?accountNr=EE123
     public BigDecimal accountBalance(String accountNr) {
-        try {
+
             return bankRepository2.accountBalance(accountNr);
-        } catch (Exception e) {
-            throw new MyException("Account nr invalid");
-        }
 
     }
     //http://localhost:8081/bank2/depositMoney?accountNr=EE123&amount=12
@@ -94,6 +91,10 @@ public class BankService2 {
 
     public void transactionHistory(String name, String date, int account_id) {
         bankRepository2.transactionHistory(name, date, account_id);
+    }
+
+    public String findPasswordByUserName(String userName){
+        return bankRepository2.findPasswordByUserName(userName);
     }
 }
 //        String sql = "INSERT INTO transaction (id, name, account_id) VALUES (:idParameter,:nameParameter, :dateParameter, :account_idParameter)";

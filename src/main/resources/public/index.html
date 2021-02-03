@@ -3,66 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<img src="https://i.pinimg.com/564x/ba/0a/e3/ba0ae3c4f9c21897661518fd46a445ad.jpg"/>
+<img src="https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/bank_building.png"/>
 <!--<a href="http://www.google.com">Google link</a>-->
 <!--<a href="index2.html">Siin ei ole google</a>-->
 <h1>BANK</h1>
 <h2>NEW CUSTOMER</h2>
 <form>
-    <input type="text" name="customer name" value="customer name"/>
+    <input id="name" type="text" name="customer name" value="customer name"/>
     <br>
-    <button id="new customer" type="button" name="new customer">SUBMIT</button>
-
-    <script>
-function makeRequest() {
-    fetch('/bank2/newCustomer?name=Kristian')
-
-        .then(result => result.json())
-        .then
-}
-        let element1 = document.getElementById("new customer")
-        element1.addEventListener("click", pressButtonFunction1)
-    </script>
+    <button id="new_customer" type="button" name="new_customer">SUBMIT</button>
 </form>
-
-
-<h2>ACCOUNT CREACTION</h2>
+<h2>ACCOUNT CREATION</h2>
 <form>
-    <input type="text" name="account number" value="EE123"/>
+    <input id="accountNr" type="text" name="accountNr" value="EE123"/>
     <br>
-    <button id="new account" type="button" name="new account">SUBMIT</button>
+    <input id="customer_id" type="number" name="customer_id" value="1"/>
+    <br>
+    <button id="create_account" type="button" name="create_account">SUBMIT</button>
 </form>
-
 <h2>BALANCE CHECK</h2>
 <form>
-    <input type="search" name="account number" value="EE123"/>
+    <input id="balance" type="search" name="account_number" value="EE123"/>
     <br>
-    <button id="submit" type="button" name="submit">SUBMIT</button>
+    <button id="check_balance" type="button" name="submit">SUBMIT</button>
 </form>
-
 <h2>DEPOSIT</h2>
 <form>
-    <input type="text" name="account number" value="EE123"/>
+    <input id="deposit" type="text" name="account_number" value="EE123"/>
     <br>
-    <input type="number" name="deposit" value="deposit value"/>
+    <input id="number" type="number" name="number" value=""/>
     <br>
-    <button id="submit" type="button" name="submit">SUBMIT</button>
+    <button id="submit_deposit" type="button" name="submit">SUBMIT</button>
 </form>
 <h2>WITHDRAWAL</h2>
 <form>
-    <input type="text" name="account number" value="EE123"/>
+    <input id="withdrawal" type="text" name="account_number" value="EE123"/>
     <br>
-    <input type="number" name="deposit" value="withdrawal value"/>
+    <input id="number_withdraw" type="number" name="deposit" value=""/>
     <br>
-    <button id="submit" type="button" name="submit">SUBMIT</button>
+    <button id="submit_withdrawal" type="button" name="submit">SUBMIT</button>
 </form>
-<h2>TRANSACTION HISTORY</h2>
+<h2>TRANSFER</h2>
+<form>
+    <input id="fromAccount" type="text" name="accountFrom" value="EE123"/>
+    <br>
+    <input id="toAccount" type="text" name="accountTo" value="EE124"/>
+    <br>
+    <input id="amount" type="number" name="deposit" value=""/>
+    <br>
+    <button id="submit_transfer" type="button" name="submit">SUBMIT</button>
+</form>
 <script>
-    // alert('test')
-    // console.log("I am here");
+    ///////////createCustomer
+    let getUrl1 = '/bank2/newCustomer?name=';
+
+    //http://localhost:8081/bank2/newCustomer?name=Kristian
+    function createCustomer() {
+
+        fetch(getUrl1 + document.getElementById("name").value)
+            .then(result => result.text())
+            .then(function (result) {
+
+                alert("New customer " + result + " has been created!");
+            })
+    }
+
+    let requestButton1 = document.getElementById("new_customer");
+    requestButton1.onclick = createCustomer;
+
+    ////////////createAccount
+    let getUrl2 = 'bank2/createAccount?accountNr='; //http://localhost:8081/bank2/createAccount?accountNr=EE123&customer_id=1
+    function createAccount() {
+        fetch(getUrl2 + document.getElementById("accountNr").value + "&customer_id=" + document.getElementById("customer_id").value)
+            .then(result => result.text())
+            .then(function (result) {
+
+                alert("New account " + result + " has been created!");
+            })
+    }
+
+    let requestButton2 = document.getElementById("create_account");
+    requestButton2.onclick = createAccount;
+
+    //checkBalance
+    let getUrl3 = 'bank2/accountBalance?accountNr='
+
+    //http://localhost:8081/bank2/accountBalance?accountNr=EE123
+    function accountBalance() {
+        fetch(getUrl3 + document.getElementById("balance").value)
+            .then(result => result.text())
+            .then(function (result) {
+
+                alert("Your balance is " + result);
+            })
+    }
+    function accountBalance2(accountNumber) {
+        fetch(getUrl3 + accountNumber)
+            .then(result => result.text())
+            .then(function (result) {
+
+                alert("Your balance is " + result);
+            })
+    }
+
+    let requestButton3 = document.getElementById("check_balance");
+    requestButton3.onclick = accountBalance;
+
+    /////depositMoney
+    let getUrl4 = 'bank2/depositMoney?accountNr='
+
+    //http://localhost:8081/bank2/depositMoney?accountNr=EE123&amount=12
+    function depositMoney() {
+        fetch(getUrl4 + document.getElementById("deposit").value + "&amount=" + document.getElementById("number").value)
+            .then(result => result.text())
+            .then(function (result) {
+
+                accountBalance(result);
+            })
+    }
+
+    let requestButton4 = document.getElementById("submit_deposit");
+    requestButton4.onclick = depositMoney;
+
+////withdrawMoney
+    let getUrl5 = 'bank2/withdrawMoney?accountNr='
+
+    //http://localhost:8081/bank2/withdrawMoney?accountNr=EE555&amount=12
+    function withdrawMoney() {
+        fetch(getUrl5 + document.getElementById("withdrawal").value + "&amount=" + document.getElementById("number_withdraw").value)
+            .then(result => result.text())
+            .then(function (result) {
+
+                accountBalance(result);
+            })
+    }
+
+    let requestButton5 = document.getElementById("submit_withdrawal");
+    requestButton5.onclick = withdrawMoney;
+
+    ////transferMoney
+    let getUrl6 = 'bank2/transferMoney?fromAccount='
+    //http://localhost:8081/bank2/transferMoney?fromAccount=EE123&toAccount=EE124&amount=12
+    function transferMoney(){
+        fetch(getUrl6 + document.getElementById("fromAccount").value + "&toAccount=" + document.getElementById("toAccount").value + "&amount=" + document.getElementById("amount").value)
+        .then(result => result.text())
+        .then(function (result){
+            accountBalance2(document.getElementById("fromAccount").value);
+            console.log(result);
+            console.log(document.getElementById("toAccount").value)
+            accountBalance2(document.getElementById("toAccount").value);
+        })
+    }
+    let requestButton6 = document.getElementById("submit_transfer");
+    requestButton6.onclick = transferMoney;
+
 </script>
 </body>
 </html>
+
